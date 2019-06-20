@@ -13,6 +13,24 @@ import com.revolshen.proweek.R
 import com.revolshen.proweek.data.Task
 
 class RecyclerAdapter : ListAdapter<Task, TaskViewHolder>(DIFF_CALLBACK) {
+
+    companion object{
+        val DIFF_CALLBACK = object : ItemCallback<Task>(){
+            override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
+                return  oldItem.text == newItem.text &&
+                        oldItem.description == newItem.description &&
+                        oldItem.startDate == newItem.startDate &&
+                        oldItem.finishDate == newItem.finishDate &&
+                        oldItem.priority == newItem.priority
+            }
+
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return TaskViewHolder(layoutInflater.inflate(R.layout.task_row, parent, false))
@@ -21,19 +39,6 @@ class RecyclerAdapter : ListAdapter<Task, TaskViewHolder>(DIFF_CALLBACK) {
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         holder.taskText.text = getItem(holder.adapterPosition).text
 
-    }
-
-    companion object{
-        val DIFF_CALLBACK = object : ItemCallback<Task>(){
-            override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-        }
     }
 
 }
