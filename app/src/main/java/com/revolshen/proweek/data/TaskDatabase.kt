@@ -1,13 +1,15 @@
 package com.revolshen.proweek.data
 
 import android.content.Context
+import android.os.AsyncTask
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 
-@Database(entities = [Task::class], version = 1)
-abstract class TaskDatabase(): RoomDatabase(){
+@Database(entities = [Task::class], version = 4)
+abstract class TaskDatabase: RoomDatabase(){
 
     abstract fun taskDao(): TaskDao
 
@@ -22,6 +24,7 @@ abstract class TaskDatabase(): RoomDatabase(){
                         TaskDatabase::class.java,
                         "task_table")
                         .fallbackToDestructiveMigration()
+                        //.addCallback(roomCallback)
                         .build()
                 }
             }
@@ -32,6 +35,22 @@ abstract class TaskDatabase(): RoomDatabase(){
             instanceOfTaskDatabase = null
         }
 
+        private val roomCallback = object : RoomDatabase.Callback() {
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                PopulateDbAsyncTask(instanceOfTaskDatabase).execute()
+            }
+        }
+
+    }
+
+}
+class PopulateDbAsyncTask(db: TaskDatabase?) : AsyncTask<Unit, Unit, Unit>() {
+    private val noteDao = db?.taskDao()
+
+    override fun doInBackground(vararg p0: Unit?) {
+        noteDao?.insert (Task("Test1", "description 1", 1, 2, 1))
+        noteDao?.insert (Task("Test2", "description 2", 1, 2, 1))
+        noteDao?.insert (Task("Test3", "description 3", 1, 2, 2))
     }
 }
-

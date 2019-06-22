@@ -2,7 +2,6 @@ package com.revolshen.proweek.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.revolshen.proweek.data.Task
 
 
 @Dao
@@ -17,8 +16,12 @@ interface TaskDao{
     @Delete
     fun delete(task: Task)
 
-    @Query("SELECT * FROM task_table ORDER BY priority DESC")
+    @Query("SELECT * FROM task_table")
     fun getAllTask(): LiveData<List<Task>>
+
+    @Query("DELETE FROM task_table")
+    fun deleteAllTask()
+
 
 
 

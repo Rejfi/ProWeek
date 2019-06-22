@@ -1,30 +1,36 @@
 package com.revolshen.proweek.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.github.clans.fab.FloatingActionButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.revolshen.proweek.R
 import com.revolshen.proweek.adapters.PagerAdapter
+import com.revolshen.proweek.adapters.RecyclerAdapter
+import com.revolshen.proweek.data.Task
+import com.revolshen.proweek.viewmodels.TaskViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     lateinit var tabLayout: TabLayout
-    lateinit var viewPager: ViewPager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        tabLayout = findViewById(R.id.tabLayout)
-
         val fm = supportFragmentManager
-        val pagerAdapter = PagerAdapter(fm, 7)
+        viewPager.adapter = PagerAdapter(fm, 2)
 
-        viewPager = findViewById(R.id.viewPager)
-        viewPager.adapter = pagerAdapter
+        tabLayout = findViewById(R.id.tabLayout)
         tabLayout.setupWithViewPager(viewPager, true)
+
+
 
     }
 

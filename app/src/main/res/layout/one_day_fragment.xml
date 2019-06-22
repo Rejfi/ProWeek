@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context=".fragments.OneDayFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/recyclerViewFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
+            android:layout_height="match_parent"
+            tools:listitem="@layout/task_row">
     </androidx.recyclerview.widget.RecyclerView>
 
+    <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/floatMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchorGravity="end|bottom"
+            app:layout_anchor="@+id/recyclerViewFragment">
 
-</FrameLayout>
+        <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/newTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_label="New task"
+        />
+
+        <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/deleteTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fab_label="Delete all tasks"
+        />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

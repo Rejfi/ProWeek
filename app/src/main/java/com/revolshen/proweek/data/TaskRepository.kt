@@ -18,19 +18,21 @@ class TaskRepository(application: Application){
     }
 
     fun insert(task: Task){
-        taskDao.insert(task)
+       InsertTaskAsync(taskDao).execute(task)
     }
 
     fun update(task: Task){
-        taskDao.update(task)
+        UpdateTaskAsync(taskDao).execute(task)
     }
 
     fun delete(task: Task){
-        taskDao.delete(task)
+        DeleteTaskAsync(taskDao).execute(task)
     }
 
-    fun getAllTasks(){
-        taskDao.getAllTask()
+    fun getAllTasks(): LiveData<List<Task>>{ return allTasks }
+
+    fun deleteAllTask(){
+        DeleteAllTaskAsync(taskDao).execute()
     }
 
     companion object {
@@ -52,6 +54,12 @@ class TaskRepository(application: Application){
             }
         }
 
+        private class DeleteAllTaskAsync(val taskDao: TaskDao): AsyncTask<Unit, Unit, Unit>(){
+            override fun doInBackground(vararg params: Unit?) {
+                taskDao.deleteAllTask()
+            }
+
+        }
         
     }
 
