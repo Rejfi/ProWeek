@@ -14,10 +14,11 @@ import com.revolshen.proweek.R
 import com.revolshen.proweek.adapters.RecyclerAdapter
 import com.revolshen.proweek.data.Task
 import com.revolshen.proweek.viewmodels.TaskViewModel
-import kotlinx.android.synthetic.main.one_day_fragment.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.my_tasks_fragment.*
 
 
-class OneDayFragment : Fragment() {
+class MyTaskFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var taskViewModel: TaskViewModel
@@ -27,7 +28,7 @@ class OneDayFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.one_day_fragment, container, false)
+        return inflater.inflate(R.layout.my_tasks_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -41,7 +42,9 @@ class OneDayFragment : Fragment() {
         })
 
         newTask.setOnClickListener {
-            taskViewModel.insert(Task("1","1", null, null, 2))
+            //taskViewModel.insert(Task("1","1", null, null, 2))
+            activity?.viewPager?.currentItem = 1
+
         }
 
         deleteTask.setOnClickListener {

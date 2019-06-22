@@ -8,13 +8,12 @@ import com.revolshen.proweek.fragments.*
 class PagerAdapter(fm: FragmentManager, private val numberFrags: Int) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
 
     override fun getItem(position: Int): Fragment {
-        val taskViewFragment = OneDayFragment()
-        val taskCreatorFragment = OneDayFragment()
-
+        val myTaskFragment = MyTaskFragment()
+        val editTaskFragment = EditTaskFramgent()
         return when(position){
-            0 -> taskViewFragment
-            1 -> taskCreatorFragment
-            else -> taskViewFragment
+            0 -> myTaskFragment
+            1 -> editTaskFragment
+            else -> myTaskFragment
         }
     }
     override fun getCount(): Int {
@@ -26,6 +25,7 @@ class PagerAdapter(fm: FragmentManager, private val numberFrags: Int) : Fragment
             0 -> return "My Task"
             1 -> return "New Task"
         }
+
         return super.getPageTitle(position)
     }
 }
