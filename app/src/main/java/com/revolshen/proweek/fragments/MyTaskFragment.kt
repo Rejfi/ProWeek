@@ -20,8 +20,11 @@ import kotlinx.android.synthetic.main.my_tasks_fragment.*
 
 class MyTaskFragment : Fragment() {
 
+    companion object{
+        lateinit var taskViewModel: TaskViewModel
+    }
     private lateinit var recyclerView: RecyclerView
-    private lateinit var taskViewModel: TaskViewModel
+
     private lateinit var adapter: RecyclerAdapter
 
     override fun onCreateView(

@@ -6,12 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.revolshen.proweek.R
+import com.revolshen.proweek.data.Task
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.edit_task_fragment.*
 
-class EditTaskFramgent : Fragment(){
+class EditTaskFragment : Fragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        inflater.inflate(R.layout.edit_task_fragment, container, false)
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return inflater.inflate(R.layout.edit_task_fragment, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        setNewTask.setOnClickListener {
+            MyTaskFragment.taskViewModel.insert(Task("Nowy cel", "Opis", 1,1, 2))
+            activity?.viewPager?.currentItem = 0
+        }
+
+    }
 }

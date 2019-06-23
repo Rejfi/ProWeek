@@ -9,7 +9,7 @@ class PagerAdapter(fm: FragmentManager, private val numberFrags: Int) : Fragment
 
     override fun getItem(position: Int): Fragment {
         val myTaskFragment = MyTaskFragment()
-        val editTaskFragment = EditTaskFramgent()
+        val editTaskFragment = EditTaskFragment()
         return when(position){
             0 -> myTaskFragment
             1 -> editTaskFragment
