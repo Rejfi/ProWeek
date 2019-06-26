@@ -48,6 +48,7 @@ class RecyclerAdapter : ListAdapter<Task, RecyclerAdapter.TaskViewHolder>(DIFF_C
         holder.taskText.text = task.text
         holder.taskPriority.text = task.priority.toString()
         holder.taskDate.setText("Data")
+        holder.taskCheckBox.isChecked = false
 
 
         holder.taskCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
