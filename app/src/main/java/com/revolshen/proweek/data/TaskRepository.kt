@@ -3,8 +3,9 @@ package com.revolshen.proweek.data
 import android.app.Application
 import android.os.AsyncTask
 import androidx.lifecycle.LiveData
+import java.lang.Exception
 
-class TaskRepository(application: Application){
+class TaskRepository(application: Application) {
 
     private var taskDao: TaskDao
 
@@ -12,26 +13,30 @@ class TaskRepository(application: Application){
 
     init {
         val database: TaskDatabase = TaskDatabase.getInstance(
-            application.applicationContext)!!
+            application.applicationContext
+        )!!
         taskDao = database.taskDao()
         allTasks = taskDao.getAllTask()
     }
 
-    fun insert(task: Task){
-       InsertTaskAsync(taskDao).execute(task)
+    fun insert(task: Task) {
+        InsertTaskAsync(taskDao).execute(task)
+
     }
 
-    fun update(task: Task){
+    fun update(task: Task) {
         UpdateTaskAsync(taskDao).execute(task)
     }
 
-    fun delete(task: Task){
+    fun delete(task: Task) {
         DeleteTaskAsync(taskDao).execute(task)
     }
 
-    fun getAllTasks(): LiveData<List<Task>>{ return allTasks }
+    fun getAllTasks(): LiveData<List<Task>> {
+        return allTasks
+    }
 
-    fun deleteAllTask(){
+    fun deleteAllTask() {
         DeleteAllTaskAsync(taskDao).execute()
     }
 
@@ -54,13 +59,13 @@ class TaskRepository(application: Application){
             }
         }
 
-        private class DeleteAllTaskAsync(val taskDao: TaskDao): AsyncTask<Unit, Unit, Unit>(){
+        private class DeleteAllTaskAsync(val taskDao: TaskDao) : AsyncTask<Unit, Unit, Unit>() {
             override fun doInBackground(vararg params: Unit?) {
                 taskDao.deleteAllTask()
             }
 
         }
-        
+
     }
 
 }

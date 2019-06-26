@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.core.view.DragStartHelper
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.revolshen.proweek.R
 import com.revolshen.proweek.data.Task
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 class RecyclerAdapter : ListAdapter<Task, RecyclerAdapter.TaskViewHolder>(DIFF_CALLBACK) {
+
 
     private var listener: OnItemClickListener? = null
 
@@ -46,6 +49,7 @@ class RecyclerAdapter : ListAdapter<Task, RecyclerAdapter.TaskViewHolder>(DIFF_C
         holder.taskPriority.text = task.priority.toString()
         holder.taskDate.setText("Data")
 
+
         holder.taskCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
              when(isChecked){
                  true -> {
@@ -64,7 +68,6 @@ class RecyclerAdapter : ListAdapter<Task, RecyclerAdapter.TaskViewHolder>(DIFF_C
     fun getTask(position: Int): Task { return getItem(position) }
 
     inner class TaskViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-
         init {
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
