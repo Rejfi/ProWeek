@@ -13,10 +13,12 @@ import com.revolshen.proweek.R
 import com.revolshen.proweek.adapters.PagerAdapter
 import com.revolshen.proweek.adapters.RecyclerAdapter
 import com.revolshen.proweek.data.Task
+import com.revolshen.proweek.fragments.EditTaskFragment
+import com.revolshen.proweek.fragments.MyTaskFragment
 import com.revolshen.proweek.viewmodels.TaskViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(), MyTaskFragment.SendTask {
 
     lateinit var tabLayout: TabLayout
 
@@ -30,12 +32,14 @@ class MainActivity : AppCompatActivity(){
         tabLayout = findViewById(R.id.tabLayout)
         tabLayout.setupWithViewPager(viewPager, true)
 
-
-
     }
 
+    override fun sendTaskData(task: Task) {
+        val tag = "android:switcher:" + R.id.viewPager + ":" + 1
+        val f: EditTaskFragment = supportFragmentManager.findFragmentByTag(tag) as EditTaskFragment
+        f.receivedTaskData(task)
 
-
+    }
 }
 
 

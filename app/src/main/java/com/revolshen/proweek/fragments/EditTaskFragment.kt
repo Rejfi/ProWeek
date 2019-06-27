@@ -12,8 +12,17 @@ import com.revolshen.proweek.data.TaskData
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.edit_task_fragment.*
 import java.lang.Exception
+import android.widget.Toast
+
 
 class EditTaskFragment : Fragment() {
+
+     fun receivedTaskData(task: Task) {
+         editTitleTask.setText(task.text)
+         editDescriptionTask.setText(task.description)
+         editRatingBar.rating = task.priority.toFloat()
+    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.edit_task_fragment, container, false)
@@ -30,7 +39,6 @@ class EditTaskFragment : Fragment() {
                 0,
                 editRatingBar.rating.toInt()
             )
-
 
             MyTaskFragment.taskViewModel.insert(task)
             activity?.viewPager?.currentItem = 0
@@ -53,10 +61,12 @@ class EditTaskFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        /*
         val sharedPreferences = activity?.getSharedPreferences(MyTaskFragment.myPreferences, MODE_PRIVATE)
         editTitleTask.setText(sharedPreferences?.getString("text", ""))
         editDescriptionTask.setText(sharedPreferences?.getString("description", ""))
         editRatingBar.rating =  sharedPreferences?.getInt("priority", 0)!!.toFloat()
         sharedPreferences.edit().clear().apply()
+        */
     }
 }

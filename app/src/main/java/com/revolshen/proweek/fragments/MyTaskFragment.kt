@@ -1,7 +1,7 @@
 package com.revolshen.proweek.fragments
 
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,23 +13,23 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.revolshen.proweek.R
-import com.revolshen.proweek.activities.MainActivity
 import com.revolshen.proweek.adapters.RecyclerAdapter
 import com.revolshen.proweek.data.Task
-import com.revolshen.proweek.data.TaskData
 import com.revolshen.proweek.viewmodels.TaskViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.my_tasks_fragment.*
-import kotlinx.android.synthetic.main.task_row.*
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import android.content.Context
-
+import com.revolshen.proweek.fragments.MyTaskFragment.SendTask
 
 
 
 
 class MyTaskFragment : Fragment(){
+
+    interface SendTask {
+        fun sendTaskData(task: Task)
+    }
+
+    private var sm: SendTask? = null
 
     companion object {
         lateinit var taskViewModel: TaskViewModel
@@ -69,14 +69,7 @@ class MyTaskFragment : Fragment(){
 
         adapter.setOnItemClickListener(object : RecyclerAdapter.OnItemClickListener {
             override fun onItemClick(task: Task, fromPosition: Int) {
-                //Share data beetwen two fragments using SharedPreferences (after send data clear sharedPreferences)
-                val sharedPreferences = activity!!.getSharedPreferences(myPreferences, MODE_PRIVATE)
-                sharedPreferences.edit().apply{
-                    putString("text", task.text)
-                    putString("description", task.description)
-                    putInt("priority", task.priority)
-                    apply()
-                }
+                sm?.sendTaskData(task)
                 activity?.viewPager?.currentItem = 1
             }
 
@@ -104,6 +97,18 @@ class MyTaskFragment : Fragment(){
 
 
         }).attachToRecyclerView(recyclerView)
+
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        try {
+            sm = activity as SendTask?
+        } catch (e: ClassCastException) {
+            throw ClassCastException("Error in retrieving data. Please try again")
+        }
+
 
     }
 
