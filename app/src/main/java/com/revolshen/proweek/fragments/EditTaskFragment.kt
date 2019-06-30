@@ -32,9 +32,7 @@ class EditTaskFragment : Fragment() {
              task.priority)
          editTask.id = task.id
          this.editTask = editTask
-
      }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.edit_task_fragment, container, false)
@@ -82,7 +80,8 @@ class EditTaskFragment : Fragment() {
                     Toast.LENGTH_SHORT).show()
             }
 
-
+        TODO("Naprawić bugi związane z edytacją notatki. Można edytować nieistniejące notatki i " +
+                "przesuwać okna aby edytować niestniejącą notatkę")
         }
 
         clearAllDetails.setOnClickListener {
