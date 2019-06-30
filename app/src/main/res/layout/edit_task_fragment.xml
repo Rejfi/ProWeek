@@ -16,6 +16,11 @@
                 app:fab_label="Wyznacz nowy cel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+        <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/editCurrentTask"
+                app:fab_label="Edytuj cel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/clearAllDetails"

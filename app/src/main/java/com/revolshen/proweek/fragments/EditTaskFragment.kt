@@ -17,11 +17,23 @@ import android.widget.Toast
 
 class EditTaskFragment : Fragment() {
 
-     fun receivedTaskData(task: Task) {
+    private var editTask: Task? = null
+
+     fun receivedTaskData(task: Task){
+
          editTitleTask.setText(task.text)
          editDescriptionTask.setText(task.description)
          editRatingBar.rating = task.priority.toFloat()
-    }
+
+         val editTask = Task(task.text,
+             task.description,
+             null,
+             null,
+             task.priority)
+         editTask.id = task.id
+         this.editTask = editTask
+
+     }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,14 +43,15 @@ class EditTaskFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        editTask = null
+
         setNewTask.setOnClickListener {
             val task = Task(
                 editTitleTask.text.toString(),
                 editDescriptionTask.text.toString(),
                 0,
                 0,
-                editRatingBar.rating.toInt()
-            )
+                editRatingBar.rating.toInt())
 
             MyTaskFragment.taskViewModel.insert(task)
             activity?.viewPager?.currentItem = 0
@@ -47,6 +60,29 @@ class EditTaskFragment : Fragment() {
             editDescriptionTask.setText("")
             editRatingBar.rating = 0.0f
             editFloatMenu.close(true)
+        }
+
+        editCurrentTask.setOnClickListener {
+            editTask?.text = editTitleTask.text.toString()
+            editTask?.description = editDescriptionTask.text.toString()
+            editTask?.priority = editRatingBar.rating.toInt()
+
+            if(editTask != null){
+                MyTaskFragment.taskViewModel.update(editTask!!)
+                editTask = null
+                activity?.viewPager?.currentItem = 0
+                editTitleTask.setText("")
+                editDescriptionTask.setText("")
+                editRatingBar.rating = 0.0f
+                editFloatMenu.close(true)
+
+            }else{
+                Toast.makeText(requireContext(),
+                    "Nie można edytować nieistniejącej notatki",
+                    Toast.LENGTH_SHORT).show()
+            }
+
+
         }
 
         clearAllDetails.setOnClickListener {
@@ -58,15 +94,4 @@ class EditTaskFragment : Fragment() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        /*
-        val sharedPreferences = activity?.getSharedPreferences(MyTaskFragment.myPreferences, MODE_PRIVATE)
-        editTitleTask.setText(sharedPreferences?.getString("text", ""))
-        editDescriptionTask.setText(sharedPreferences?.getString("description", ""))
-        editRatingBar.rating =  sharedPreferences?.getInt("priority", 0)!!.toFloat()
-        sharedPreferences.edit().clear().apply()
-        */
-    }
 }

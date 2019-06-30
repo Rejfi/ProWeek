@@ -29,13 +29,11 @@ class MyTaskFragment : Fragment(){
         fun sendTaskData(task: Task)
     }
 
-    private var sm: SendTask? = null
-
     companion object {
         lateinit var taskViewModel: TaskViewModel
-        const val myPreferences = "MyPrefs"
     }
 
+    private var sm: SendTask? = null
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecyclerAdapter
 
@@ -51,12 +49,12 @@ class MyTaskFragment : Fragment(){
 
         recyclerView = view!!.findViewById(R.id.recyclerViewFragment)
         adapter = RecyclerAdapter()
+
         taskViewModel = ViewModelProviders.of(this)[TaskViewModel::class.java]
         taskViewModel.getAllTasks().observe(this, Observer<List<Task>> {
             //Update recyclerView adapter to show current notes
             adapter.submitList(it)
         })
-
         //Float button menu and his buttons' actions
         newTask.setOnClickListener {
             activity?.viewPager?.currentItem = 1
@@ -72,7 +70,6 @@ class MyTaskFragment : Fragment(){
                 sm?.sendTaskData(task)
                 activity?.viewPager?.currentItem = 1
             }
-
         })
 
         ItemTouchHelper(object : ItemTouchHelper.Callback() {
@@ -95,9 +92,7 @@ class MyTaskFragment : Fragment(){
                 taskViewModel.delete(adapter.getTask(viewHolder.adapterPosition))
             }
 
-
         }).attachToRecyclerView(recyclerView)
-
     }
 
     override fun onAttach(context: Context) {
@@ -108,8 +103,6 @@ class MyTaskFragment : Fragment(){
         } catch (e: ClassCastException) {
             throw ClassCastException("Error in retrieving data. Please try again")
         }
-
-
     }
 
     override fun onStart() {
