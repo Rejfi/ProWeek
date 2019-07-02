@@ -18,12 +18,9 @@ import com.revolshen.proweek.data.Task
 import com.revolshen.proweek.viewmodels.TaskViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.my_tasks_fragment.*
-import com.revolshen.proweek.fragments.MyTaskFragment.SendTask
 
 
-
-
-class MyTaskFragment : Fragment(){
+class MyTaskFragment : Fragment() {
 
     interface SendTask {
         fun sendTaskData(task: Task)
@@ -57,6 +54,9 @@ class MyTaskFragment : Fragment(){
         })
         //Float button menu and his buttons' actions
         newTask.setOnClickListener {
+            val fragment = activity?.supportFragmentManager!!.fragments[1] as EditTaskFragment
+            fragment.clearTextViews()
+
             activity?.viewPager?.currentItem = 1
             taskFloatMenu.close(true)
         }
@@ -74,9 +74,8 @@ class MyTaskFragment : Fragment(){
 
         ItemTouchHelper(object : ItemTouchHelper.Callback() {
             override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-                val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
                 val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
-                return makeMovementFlags(dragFlags, swipeFlags)
+                return makeMovementFlags(0,swipeFlags)
             }
 
             override fun onMove(
@@ -84,8 +83,8 @@ class MyTaskFragment : Fragment(){
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                adapter.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
-                return true
+                //adapter.notifyItemMoved(viewHolder.oldPosition, target.adapterPosition)
+                return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -97,7 +96,6 @@ class MyTaskFragment : Fragment(){
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
         try {
             sm = activity as SendTask?
         } catch (e: ClassCastException) {
@@ -107,11 +105,9 @@ class MyTaskFragment : Fragment(){
 
     override fun onStart() {
         super.onStart()
-
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
         recyclerView.setHasFixedSize(true)
-
     }
 
 }

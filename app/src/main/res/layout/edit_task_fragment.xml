@@ -9,7 +9,8 @@
     <com.github.clans.fab.FloatingActionMenu
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end" android:id="@+id/editFloatMenu">
+            android:layout_gravity="bottom|end"
+            android:id="@+id/editFloatMenu">
 
         <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/setNewTask"
@@ -35,6 +36,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <EditText
+                android:paddingStart="5dp"
+                android:textSize="30sp"
+                android:background="@android:color/transparent"
                 android:hint="Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,6 +46,10 @@
                 android:ems="10"
                 android:id="@+id/editTitleTask"/>
         <EditText
+                android:padding="7dp"
+                android:layout_marginTop="10dp"
+                android:textSize="24sp"
+                android:background="@android:color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"

@@ -66,9 +66,15 @@ class RecyclerAdapter : ListAdapter<Task, RecyclerAdapter.TaskViewHolder>(DIFF_C
 
     }
 
-    fun getTask(position: Int): Task { return getItem(position) }
+    fun getTask(position: Int): Task {
+        return getItem(position)
+    }
 
-    inner class TaskViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    fun updateUI(){
+
+    }
+
+    inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         init {
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {

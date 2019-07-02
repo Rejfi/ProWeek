@@ -1,17 +1,15 @@
 package com.revolshen.proweek.fragments
 
-import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.revolshen.proweek.R
 import com.revolshen.proweek.data.Task
-import com.revolshen.proweek.data.TaskData
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.edit_task_fragment.*
-import java.lang.Exception
 import android.widget.Toast
 
 
@@ -19,13 +17,23 @@ class EditTaskFragment : Fragment() {
 
     private var editTask: Task? = null
 
-     fun receivedTaskData(task: Task){
+    fun clearTextViews(){
+        editTitleTask.setText("")
+        editDescriptionTask.setText("")
+        editRatingBar.rating = 0.0f
+        editFloatMenu.close(true)
+        editTask = null
+    }
+
+    fun receivedTaskData(task: Task){
 
          editTitleTask.setText(task.text)
          editDescriptionTask.setText(task.description)
          editRatingBar.rating = task.priority.toFloat()
 
-         val editTask = Task(task.text,
+         editTask = null
+
+        val editTask = Task(task.text,
              task.description,
              null,
              null,
@@ -40,8 +48,8 @@ class EditTaskFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        Log.d("TEST", "Wykonano onActtivityCreated")
 
-        editTask = null
 
         setNewTask.setOnClickListener {
             val task = Task(
@@ -58,6 +66,7 @@ class EditTaskFragment : Fragment() {
             editDescriptionTask.setText("")
             editRatingBar.rating = 0.0f
             editFloatMenu.close(true)
+            editTask = null
         }
 
         editCurrentTask.setOnClickListener {
@@ -67,12 +76,13 @@ class EditTaskFragment : Fragment() {
 
             if(editTask != null){
                 MyTaskFragment.taskViewModel.update(editTask!!)
-                editTask = null
                 activity?.viewPager?.currentItem = 0
+
                 editTitleTask.setText("")
                 editDescriptionTask.setText("")
                 editRatingBar.rating = 0.0f
                 editFloatMenu.close(true)
+                editTask = null
 
             }else{
                 Toast.makeText(requireContext(),
@@ -80,8 +90,6 @@ class EditTaskFragment : Fragment() {
                     Toast.LENGTH_SHORT).show()
             }
 
-        TODO("Naprawić bugi związane z edytacją notatki. Można edytować nieistniejące notatki i " +
-                "przesuwać okna aby edytować niestniejącą notatkę")
         }
 
         clearAllDetails.setOnClickListener {
@@ -93,4 +101,8 @@ class EditTaskFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("TEST", "Wykonano onResume")
+    }
 }

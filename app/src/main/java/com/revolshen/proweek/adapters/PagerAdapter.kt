@@ -6,7 +6,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.revolshen.proweek.fragments.*
 
-class PagerAdapter(fm: FragmentManager, private val numberFrags: Int) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+class PagerAdapter(private val fm: FragmentManager, private val numberFrags: Int) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+
 
     override fun getItem(position: Int): Fragment {
         val myTaskFragment = MyTaskFragment()
