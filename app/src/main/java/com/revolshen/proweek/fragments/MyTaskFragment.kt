@@ -22,15 +22,11 @@ import kotlinx.android.synthetic.main.my_tasks_fragment.*
 
 class MyTaskFragment : Fragment() {
 
-    interface SendTask {
-        fun sendTaskData(task: Task)
-    }
-
-    companion object {
+    companion object{
         lateinit var taskViewModel: TaskViewModel
     }
 
-    private var sm: SendTask? = null
+    //private lateinit var taskViewModel: TaskViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RecyclerAdapter
 
@@ -56,7 +52,6 @@ class MyTaskFragment : Fragment() {
         newTask.setOnClickListener {
             val fragment = activity?.supportFragmentManager!!.fragments[1] as EditTaskFragment
             fragment.clearTextViews()
-
             activity?.viewPager?.currentItem = 1
             taskFloatMenu.close(true)
         }
@@ -65,9 +60,10 @@ class MyTaskFragment : Fragment() {
             taskViewModel.deleteAllTask()
         }
 
+        //Send data to other fragment after click task
         adapter.setOnItemClickListener(object : RecyclerAdapter.OnItemClickListener {
             override fun onItemClick(task: Task, fromPosition: Int) {
-                sm?.sendTaskData(task)
+                taskViewModel.setEditTask(task)
                 activity?.viewPager?.currentItem = 1
             }
         })
@@ -83,7 +79,6 @@ class MyTaskFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                //adapter.notifyItemMoved(viewHolder.oldPosition, target.adapterPosition)
                 return false
             }
 
@@ -92,15 +87,6 @@ class MyTaskFragment : Fragment() {
             }
 
         }).attachToRecyclerView(recyclerView)
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            sm = activity as SendTask?
-        } catch (e: ClassCastException) {
-            throw ClassCastException("Error in retrieving data. Please try again")
-        }
     }
 
     override fun onStart() {

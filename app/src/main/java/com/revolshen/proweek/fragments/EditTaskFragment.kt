@@ -2,6 +2,7 @@ package com.revolshen.proweek.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.util.LogPrinter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,36 +12,14 @@ import com.revolshen.proweek.data.Task
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.edit_task_fragment.*
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.revolshen.proweek.viewmodels.TaskViewModel
 
 
 class EditTaskFragment : Fragment() {
 
-    private var editTask: Task? = null
-
-    fun clearTextViews(){
-        editTitleTask.setText("")
-        editDescriptionTask.setText("")
-        editRatingBar.rating = 0.0f
-        editFloatMenu.close(true)
-        editTask = null
-    }
-
-    fun receivedTaskData(task: Task){
-
-         editTitleTask.setText(task.text)
-         editDescriptionTask.setText(task.description)
-         editRatingBar.rating = task.priority.toFloat()
-
-         editTask = null
-
-        val editTask = Task(task.text,
-             task.description,
-             null,
-             null,
-             task.priority)
-         editTask.id = task.id
-         this.editTask = editTask
-     }
+    private lateinit var taskViewModel: TaskViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.edit_task_fragment, container, false)
@@ -48,8 +27,14 @@ class EditTaskFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d("TEST", "Wykonano onActtivityCreated")
 
+        taskViewModel =  MyTaskFragment.taskViewModel// ViewModelProviders.of(this).get(TaskViewModel::class.java)
+        taskViewModel.getEditTask().observe(this, Observer {
+
+            editTitleTask.setText(it.text)
+            editDescriptionTask.setText(it.description)
+            editRatingBar.rating = it.priority.toFloat()
+        })
 
         setNewTask.setOnClickListener {
             val task = Task(
@@ -59,50 +44,39 @@ class EditTaskFragment : Fragment() {
                 0,
                 editRatingBar.rating.toInt())
 
-            MyTaskFragment.taskViewModel.insert(task)
+            taskViewModel.insert(task)
             activity?.viewPager?.currentItem = 0
-
-            editTitleTask.setText("")
-            editDescriptionTask.setText("")
-            editRatingBar.rating = 0.0f
-            editFloatMenu.close(true)
-            editTask = null
+            clearTextViews()
         }
 
         editCurrentTask.setOnClickListener {
-            editTask?.text = editTitleTask.text.toString()
-            editTask?.description = editDescriptionTask.text.toString()
-            editTask?.priority = editRatingBar.rating.toInt()
+            val editTask = Task(
+                editTitleTask.text.toString(),
+                editDescriptionTask.text.toString(),
+                0,
+                0,
+                editRatingBar.rating.toInt())
+            editTask.id = taskViewModel.getEditTask().value!!.id
 
-            if(editTask != null){
-                MyTaskFragment.taskViewModel.update(editTask!!)
-                activity?.viewPager?.currentItem = 0
-
-                editTitleTask.setText("")
-                editDescriptionTask.setText("")
-                editRatingBar.rating = 0.0f
-                editFloatMenu.close(true)
-                editTask = null
-
-            }else{
-                Toast.makeText(requireContext(),
-                    "Nie można edytować nieistniejącej notatki",
-                    Toast.LENGTH_SHORT).show()
-            }
-
+            taskViewModel.update(editTask)
+            activity?.viewPager?.currentItem = 0
         }
 
-        clearAllDetails.setOnClickListener {
-            editTitleTask.setText("")
-            editDescriptionTask.setText("")
-            editRatingBar.rating = 0.0f
-            editFloatMenu.close(true)
-        }
+        clearAllDetails.setOnClickListener { clearTextViews() }
 
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("TEST", "Wykonano onResume")
+
+        Log.d("RESUME", taskViewModel.getEditTask().value?.text + "::" + taskViewModel.getEditTask().value?.description)
     }
+
+    fun clearTextViews(){
+        editTitleTask.setText("")
+        editDescriptionTask.setText("")
+        editRatingBar.rating = 0.0f
+        editFloatMenu.close(true)
+    }
+
 }

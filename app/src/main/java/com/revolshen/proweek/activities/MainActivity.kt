@@ -11,10 +11,9 @@ import com.revolshen.proweek.fragments.EditTaskFragment
 import com.revolshen.proweek.fragments.MyTaskFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), MyTaskFragment.SendTask {
+class MainActivity : AppCompatActivity() {
 
     lateinit var tabLayout: TabLayout
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,12 +26,6 @@ class MainActivity : AppCompatActivity(), MyTaskFragment.SendTask {
 
     }
 
-    override fun sendTaskData(task: Task) {
-        val tag = "android:switcher:" + R.id.viewPager + ":" + 1
-        val f: EditTaskFragment = supportFragmentManager.findFragmentByTag(tag) as EditTaskFragment
-        f.receivedTaskData(task)
-
-    }
 }
 
 

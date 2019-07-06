@@ -1,23 +1,18 @@
 package com.revolshen.proweek.adapters
 
-import android.graphics.Color
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.core.view.DragStartHelper
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.revolshen.proweek.R
 import com.revolshen.proweek.data.Task
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 class RecyclerAdapter : ListAdapter<Task, RecyclerAdapter.TaskViewHolder>(DIFF_CALLBACK) {
-
 
     private var listener: OnItemClickListener? = null
 
@@ -47,11 +42,11 @@ class RecyclerAdapter : ListAdapter<Task, RecyclerAdapter.TaskViewHolder>(DIFF_C
         val task = getItem(holder.adapterPosition)
         holder.taskText.text = task.text
         holder.taskPriority.text = task.priority.toString()
-        holder.taskDate.setText("Data")
+        holder.taskDate.text = "Data"
         holder.taskCheckBox.isChecked = false
 
 
-        holder.taskCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
+        holder.taskCheckBox.setOnCheckedChangeListener { _, isChecked ->
              when(isChecked){
                  true -> {
                      holder.taskText.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
@@ -63,15 +58,11 @@ class RecyclerAdapter : ListAdapter<Task, RecyclerAdapter.TaskViewHolder>(DIFF_C
                  }
              }
         }
-
     }
 
+    //Return task from given position
     fun getTask(position: Int): Task {
         return getItem(position)
-    }
-
-    fun updateUI(){
-
     }
 
     inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
