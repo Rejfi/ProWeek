@@ -19,7 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_anchorGravity="end|bottom"
-            app:layout_anchor="@+id/recyclerViewFragment">
+            app:layout_anchor="@+id/recyclerViewFragment"
+            android:elevation="6dp"
+    >
 
         <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/newTask"
