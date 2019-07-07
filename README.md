@@ -8,7 +8,7 @@ One task includes:
 
 I have used the **MVVM pattern** and the recommend **Android ROOM**
 
-Application Architecture:
+**Application Architecture**:
 1. MainActivity --> host for the ViewPager 
 
 2a. MyTaskFragment --> Fragment displays the list of the tasks
@@ -19,6 +19,5 @@ Application Architecture:
 
 4. TaskRepository --> an object which has to receive data from SQLite DataBase or (in the future) WebServices. 
 
-
-Data Flow:
+**Data Flow**:
 Fragments <--> TaskViewModel <---> TaskRepository <-->SQLiteDatabase
