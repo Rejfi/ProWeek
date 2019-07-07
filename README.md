@@ -20,4 +20,5 @@ I have used the **MVVM pattern** and the recommend **Android ROOM**
 4. TaskRepository --> an object which has to receive data from SQLite DataBase or (in the future) WebServices. 
 
 **Data Flow**:
+
 Fragments <--> TaskViewModel <---> TaskRepository <-->SQLiteDatabase
