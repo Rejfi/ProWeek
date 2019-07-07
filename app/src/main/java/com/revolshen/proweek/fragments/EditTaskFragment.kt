@@ -28,7 +28,10 @@ class EditTaskFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        taskViewModel =  MyTaskFragment.taskViewModel// ViewModelProviders.of(this).get(TaskViewModel::class.java)
+        taskViewModel =  activity!!.run {
+            ViewModelProviders.of(this).get(TaskViewModel::class.java)
+        }// ViewModelProviders.of(this).get(TaskViewModel::class.java)
+
         taskViewModel.getEditTask().observe(this, Observer {
 
             editTitleTask.setText(it.text)

@@ -43,7 +43,13 @@ class MyTaskFragment : Fragment() {
         recyclerView = view!!.findViewById(R.id.recyclerViewFragment)
         adapter = RecyclerAdapter()
 
+        /*
         taskViewModel = ViewModelProviders.of(this)[TaskViewModel::class.java]
+        */
+        taskViewModel = activity!!.run {
+            ViewModelProviders.of(this).get(TaskViewModel::class.java)
+        }
+
         taskViewModel.getAllTasks().observe(this, Observer<List<Task>> {
             //Update recyclerView adapter to show current notes
             adapter.submitList(it)
